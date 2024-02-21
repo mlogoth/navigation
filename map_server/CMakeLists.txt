@@ -1,16 +1,17 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(map_server)
 
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
+
 find_package(catkin REQUIRED
         COMPONENTS
             roscpp
             nav_msgs
             tf2
         )
-
 find_package(Bullet REQUIRED)
-find_package(SDL REQUIRED)
-find_package(SDL_image REQUIRED)
+find_package(SDL2 REQUIRED)
+find_package(SDL2_image REQUIRED)
 find_package(Boost REQUIRED COMPONENTS filesystem)
 
 find_package(PkgConfig REQUIRED)
@@ -35,8 +36,8 @@ include_directories(
     include
     ${BULLET_INCLUDE_DIRS}
     ${catkin_INCLUDE_DIRS}
-    ${SDL_INCLUDE_DIR}
-    ${SDL_IMAGE_INCLUDE_DIRS}
+    ${SDL2_INCLUDE_DIR}
+    ${SDL2_IMAGE_INCLUDE_DIRS}
     ${YAMLCPP_INCLUDE_DIRS}
     ${Boost_INCLUDE_DIRS}
 )
@@ -46,8 +47,8 @@ add_dependencies(map_server_image_loader ${${PROJECT_NAME}_EXPORTED_TARGETS} ${c
 target_link_libraries(map_server_image_loader
     ${BULLET_LIBRARIES}
     ${catkin_LIBRARIES}
-    ${SDL_LIBRARY}
-    ${SDL_IMAGE_LIBRARIES}
+    ${SDL2_LIBRARY}
+    ${SDL2_IMAGE_LIBRARIES}
 )
 
 add_executable(map_server src/main.cpp)
@@ -81,8 +82,8 @@ if(CATKIN_ENABLE_TESTING)
   catkin_add_gtest(${PROJECT_NAME}_utest test/utest.cpp test/test_constants.cpp)
   target_link_libraries(${PROJECT_NAME}_utest
     map_server_image_loader
-    ${SDL_LIBRARY}
-    ${SDL_IMAGE_LIBRARIES}
+    ${SDL2_LIBRARY}
+    ${SDL2_IMAGE_LIBRARIES}
   )
 
   add_executable(rtest test/rtest.cpp test/test_constants.cpp)
